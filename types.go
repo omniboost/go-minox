@@ -28,7 +28,7 @@ type Administration struct {
 	// example: 12
 	NumberOfPeriods NumberOfPeriods `json:"number_of_periods"`
 
-	VatOnSub bool     `json:"vat_on_sub"`
+	VATOnSub bool     `json:"vat_on_sub"`
 	Currency Currency `json:"currency"`
 
 	// chamber_of_commerce: string
@@ -126,7 +126,7 @@ type TransactionLinePut struct {
 		FiscalYear int `json:"fiscal_year"`
 	} `json:"period"`
 	Description string `json:"description"`
-	Vat         struct {
+	VAT         struct {
 		ID     int     `json:"id,omitempty"`
 		Amount float64 `json:"amount,omitempty"`
 	} `json:"vat"`
