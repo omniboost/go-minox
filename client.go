@@ -404,14 +404,22 @@ type ErrorResponse struct {
 }
 
 func (r *ErrorResponse) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, &r.Messages)
+	msgs := Messages{}
+	err := json.Unmarshal(data, &msgs)
+	if err != nil {
+		return err
+	}
+
+	for _, msg := range msgs {
+		if msg.MessageCode != "" || msg.MessageType != "" || msg.Message != "" {
+			r.Messages = append(r.Messages, msg)
+		}
+	}
+
+	return nil
 }
 
-type Messages []struct {
-	MessageCode string `json:"message_code"`
-	MessageType string `json:"message_type"`
-	Message     string `json:"message"`
-}
+type Messages []Message
 
 func (msgs Messages) Error() string {
 	err := []string{}
@@ -424,6 +432,12 @@ func (msgs Messages) Error() string {
 
 func (r *ErrorResponse) Error() string {
 	return r.Messages.Error()
+}
+
+type Message struct {
+	MessageCode string `json:"message_code"`
+	MessageType string `json:"message_type"`
+	Message     string `json:"message"`
 }
 
 func checkContentType(response *http.Response) error {

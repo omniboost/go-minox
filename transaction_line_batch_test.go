@@ -48,9 +48,11 @@ func TestTransactionLineBatchPut(t *testing.T) {
 	req.PathParams().BatchID = uuid.NewV4()
 
 	line := minox.TransactionLinePut{}
-	line.Account.ID = "1234"
+	line.Account.ID = "1220"
 	line.Period.FiscalYear = 2006
 	line.Journal.ID = "MEMO"
+	line.Debit = 12.40
+	line.Description = "test"
 	req.RequestBody().TransactionLineBatchPut = append(req.RequestBody().TransactionLineBatchPut, line)
 
 	resp, err := req.Do()
