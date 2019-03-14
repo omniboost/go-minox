@@ -258,20 +258,12 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 	}
 
 	errorResponse := &ErrorResponse{Response: httpResp}
-
 	err = c.Unmarshal(httpResp.Body, &responseBody, &errorResponse)
 	if err != nil {
 		return httpResp, err
 	}
 
-	appResponse, ok := responseBody.(*AppResponse)
-	if ok {
-		if len(appResponse.Errors) > 0 {
-			return httpResp, appResponse.Errors
-		}
-	}
-
-	if errorResponse.Err.Message != "" {
+	if len(errorResponse.Messages) > 0 {
 		return httpResp, errorResponse
 	}
 
@@ -375,7 +367,7 @@ func CheckResponse(r *http.Response) error {
 	// 	return errorResponse
 	// }
 
-	if c := r.StatusCode; c >= 200 && c <= 299 {
+	if c := r.StatusCode; (c >= 200 && c <= 299) || c == 400 {
 		return nil
 	}
 
@@ -408,60 +400,30 @@ type ErrorResponse struct {
 	// HTTP response that caused this error
 	Response *http.Response `json:"-"`
 
-	Err struct {
-		Message string `json:"message"`
-		Code    string `json:"code"`
-		Type    string `json:"type"`
-	} `json:"error"`
+	Messages Messages
 }
 
-type AppResponse struct {
-	// HTTP response that caused this error
-	Response *http.Response `json:"-"`
-
-	Errors     Errors            `json:"errors"`
-	ResultID   string            `json:"resultid"`
-	ReturnVars interface{}       `json:"returnvars"`
-	Object     string            `json:"object"`
-	Warnings   map[string]string `json:"warnings"`
+func (r *ErrorResponse) UnmarshalJSON(data []byte) error {
+	return json.Unmarshal(data, &r.Messages)
 }
 
-type Errors map[string]string
+type Messages []struct {
+	MessageCode string `json:"message_code"`
+	MessageType string `json:"message_type"`
+	Message     string `json:"message"`
+}
 
-func (errs Errors) Error() string {
+func (msgs Messages) Error() string {
 	err := []string{}
-	for k, v := range errs {
-		err = append(err, fmt.Sprintf("%s: %s", k, v))
+	for _, v := range msgs {
+		err = append(err, fmt.Sprintf("%s: %s", v.MessageCode, v.Message))
 	}
 
 	return strings.Join(err, ", ")
 }
 
-func (r *AppResponse) UnmarshalJSON(data []byte) error {
-	type Alias AppResponse
-	tmp := []Alias{}
-
-	err := json.Unmarshal(data, &tmp)
-	if err != nil {
-		return err
-	}
-
-	if len(tmp) == 1 {
-		*r = AppResponse(tmp[0])
-		return nil
-	}
-
-	if len(tmp) > 1 {
-		return errors.New("Too many elements in AppResponse")
-	}
-	return errors.New("Too little elements in AppResponse")
-}
-
-// {"error":{"message":"key [currency] doesn't exist","code":"0","type":"expression"}}
-// [{"errors":{},"resultid":"63759415-E3B7-408D-A648-A4F2036E51E3","returnvars":{},"object":"projectactiviteit","warnings":{}}]
-
 func (r *ErrorResponse) Error() string {
-	return fmt.Sprintf("%s: %s (%s)", r.Err.Code, r.Err.Message, r.Err.Type)
+	return r.Messages.Error()
 }
 
 func checkContentType(response *http.Response) error {

@@ -9,10 +9,11 @@ import (
 
 	_ "github.com/joho/godotenv/autoload"
 	minox "github.com/omniboost/go-minox"
+	uuid "github.com/satori/go.uuid"
 	"golang.org/x/oauth2"
 )
 
-func TestAdministrationListGet(t *testing.T) {
+func TestTransactionLineBatchPut(t *testing.T) {
 	clientID := os.Getenv("OAUTH_CLIENT_ID")
 	clientSecret := os.Getenv("OAUTH_CLIENT_SECRET")
 	accessToken := os.Getenv("OAUTH_ACCESS_TOKEN")
@@ -42,7 +43,15 @@ func TestAdministrationListGet(t *testing.T) {
 	client.SetDebug(true)
 	client.SetDisallowUnknownFields(true)
 
-	req := client.NewAdministrationListGetRequest()
+	req := client.NewTransactionLineBatchPutRequest()
+	req.PathParams().AdministrationID = "99998"
+	req.PathParams().BatchID = uuid.NewV4()
+
+	line := minox.TransactionLinePut{}
+	line.Account.ID = "1234"
+	line.Period.FiscalYear = 2006
+	line.Journal.ID = "MEMO"
+	req.RequestBody().TransactionLineBatchPut = append(req.RequestBody().TransactionLineBatchPut, line)
 
 	resp, err := req.Do()
 	if err != nil {

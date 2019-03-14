@@ -12,7 +12,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func TestAdministrationListGet(t *testing.T) {
+func TestJournalListGet(t *testing.T) {
 	clientID := os.Getenv("OAUTH_CLIENT_ID")
 	clientSecret := os.Getenv("OAUTH_CLIENT_SECRET")
 	accessToken := os.Getenv("OAUTH_ACCESS_TOKEN")
@@ -42,7 +42,8 @@ func TestAdministrationListGet(t *testing.T) {
 	client.SetDebug(true)
 	client.SetDisallowUnknownFields(true)
 
-	req := client.NewAdministrationListGetRequest()
+	req := client.NewJournalListGetRequest()
+	req.PathParams().AdministrationID = "99998"
 
 	resp, err := req.Do()
 	if err != nil {
