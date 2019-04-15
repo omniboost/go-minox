@@ -56,7 +56,7 @@ type Date struct {
 }
 
 func (d Date) MarshalJSON() ([]byte, error) {
-	return json.Marshal(d.Format("02-01-2006"))
+	return json.Marshal(d.Format("2006-01-02"))
 }
 
 func (d *Date) UnmarshalJSON(data []byte) (err error) {
@@ -78,11 +78,5 @@ func (d *Date) UnmarshalJSON(data []byte) (err error) {
 
 	// try iso8601 date format
 	d.Time, err = time.Parse("2006-01-02", value)
-	if err == nil {
-		return nil
-	}
-
-	// try minox date format
-	d.Time, err = time.Parse("02-01-2006", value)
 	return err
 }
