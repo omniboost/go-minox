@@ -122,8 +122,8 @@ type TransactionLinePut struct {
 		ID int `json:"id,omitempty"`
 	} `json:"payment_term"`
 	Period struct {
-		ID         int `json:"id"`
-		FiscalYear int `json:"fiscal_year"`
+		ID         int `json:"id,omitempty"`
+		FiscalYear int `json:"fiscal_year,omitempty"`
 	} `json:"period"`
 	Description string `json:"description"`
 	VAT         struct {
