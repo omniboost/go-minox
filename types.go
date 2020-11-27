@@ -1,6 +1,10 @@
 package minox
 
-import uuid "github.com/satori/go.uuid"
+import (
+	"github.com/cydev/zero"
+	"github.com/omniboost/go-minox/omitempty"
+	uuid "github.com/satori/go.uuid"
+)
 
 type CollectionLinks struct {
 }
@@ -106,15 +110,13 @@ type TransactionLinePut struct {
 	Account struct {
 		ID string `json:"id"`
 	} `json:"account"`
-	CostCenter struct {
-		ID int `json:"id,omitempty"`
-	} `json:"cost_center"`
-	Credit        float64 `json:"credit"`
-	Debit         float64 `json:"debit"`
-	DocumentDate  *Date   `json:"document_date,omitempty"`
-	DueDate       *Date   `json:"due_date,omitempty"`
-	EntryNumber   int     `json:"entry_number,omitempty"`
-	InvoiceNumber int     `json:"invoice_number,omitempty"`
+	CostCenter    CostCenter `json:"cost_center,omitempty"`
+	Credit        float64    `json:"credit"`
+	Debit         float64    `json:"debit"`
+	DocumentDate  *Date      `json:"document_date,omitempty"`
+	DueDate       *Date      `json:"due_date,omitempty"`
+	EntryNumber   int        `json:"entry_number,omitempty"`
+	InvoiceNumber int        `json:"invoice_number,omitempty"`
 	Journal       struct {
 		ID string `json:"id"`
 	} `json:"journal"`
@@ -132,6 +134,10 @@ type TransactionLinePut struct {
 	} `json:"vat"`
 }
 
+func (l TransactionLinePut) MarshalJSON() ([]byte, error) {
+	return omitempty.MarshalJSON(l)
+}
+
 type TransactionLineBatchGet []TransactionLineGet
 
 type TransactionLineGet struct {
@@ -141,12 +147,9 @@ type TransactionLineGet struct {
 		Type        string `json:"type"`
 		Description string `json:"description"`
 	} `json:"account"`
-	BatchID    string `json:"batch_id"`
-	CostCenter struct {
-		ID          int    `json:"id"`
-		Description string `json:"description"`
-	} `json:"cost_center"`
-	CostType struct {
+	BatchID    string     `json:"batch_id"`
+	CostCenter CostCenter `json:"cost_center"`
+	CostType   struct {
 		ID          int    `json:"id"`
 		Description string `json:"description"`
 	} `json:"cost_type"`
@@ -316,3 +319,12 @@ type LedgerAccount struct {
 // 	none
 // ]
 type DebitCreditSuggestion string
+
+type CostCenter struct {
+	ID          int    `json:"id,omitempty"`
+	Description string `json:"description"`
+}
+
+func (c CostCenter) IsEmpty() bool {
+	return zero.IsZero(c)
+}
