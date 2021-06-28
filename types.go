@@ -260,10 +260,7 @@ type Journal struct {
 type LedgerAccounts []LedgerAccount
 
 type LedgerAccount struct {
-	Aggregation struct {
-		AggregationLevel int    `json:"aggregation_level"`
-		Description      string `json:"description"`
-	} `json:"aggregation"`
+	Aggregation    Aggregation `json:"aggregation"`
 	BudgetDivision struct {
 		ID          int    `json:"id"`
 		Description string `json:"description"`
@@ -327,4 +324,187 @@ type CostCenter struct {
 
 func (c CostCenter) IsEmpty() bool {
 	return zero.IsZero(c)
+}
+
+type CustomerPost struct {
+	ID int `json:"id,omitempty"`
+	// Aggregation Aggregation `json:"aggregation,omitempty"`
+	// IsOneTime   bool        `json:"is_one_time,omitempty"`
+	Addresses Addresses        `json:"addresses"`
+	Search    []CustomerSearch `json:"search"`
+	// Language string `json:"language"`
+	// VAT      struct {
+	// 	Active                bool   `json:"active"`
+	// 	SuggestedVATID        int    `json:"suggested_vat_id"`
+	// 	SuggestedGlAccount    int    `json:"suggested_gl_account"`
+	// 	VATRegistrationNumber string `json:"vat_registration_number"`
+	// } `json:"vat"`
+	// Currency struct {
+	// 	ID           string `json:"id"`
+	// 	ExchangeRate int    `json:"exchange_rate"`
+	// 	Description  string `json:"description"`
+	// } `json:"currency"`
+	// BlockSendingReminders bool `json:"block_sending_reminders"`
+	// BlockCollection       bool `json:"block_collection"`
+	// PaymentTerm           struct {
+	// 	ID          int    `json:"id"`
+	// 	Description string `json:"description"`
+	// 	Days        int    `json:"days"`
+	// 	Mandate     string `json:"mandate"`
+	// 	Start       string `json:"start"`
+	// 	Terms       struct {
+	// 		Type       string `json:"type"`
+	// 		Days       int    `json:"days"`
+	// 		Percentage int    `json:"percentage"`
+	// 	} `json:"terms"`
+	// } `json:"payment_term"`
+	// Blocked struct {
+	// 	Active bool   `json:"active"`
+	// 	Reason string `json:"reason"`
+	// } `json:"blocked"`
+	// ChamberOfCommerce string `json:"chamber_of_commerce"`
+	// Bank              struct {
+	// 	Iban string `json:"iban"`
+	// 	Bic  string `json:"bic"`
+	// 	Name string `json:"name"`
+	// 	City string `json:"city"`
+	// } `json:"bank"`
+	CustomFields CustomFields `json:"custom_fields"`
+	// Memo struct {
+	// 	Active bool   `json:"active"`
+	// 	Text   string `json:"text"`
+	// } `json:"memo"`
+	// Sales struct {
+	// 	Pricecode                 int    `json:"pricecode"`
+	// 	StatisticsCode            string `json:"statistics_code"`
+	// 	VATInclusive              bool   `json:"vat_inclusive"`
+	// 	TrackSalesHistory         bool   `json:"track_sales_history"`
+	// 	GRekeningPercentage       int    `json:"g_rekening_percentage"`
+	// 	InvoiceDiscountPercentage int    `json:"invoice_discount_percentage"`
+	// 	CreditLimit               int    `json:"credit_limit"`
+	// 	RevenueCategory           int    `json:"revenue_category"`
+	// 	DiscountGroup             struct {
+	// 		ID          int    `json:"id"`
+	// 		Description string `json:"description"`
+	// 	} `json:"discount_group"`
+	// 	DeliveryTerms struct {
+	// 		ID          int    `json:"id"`
+	// 		Description string `json:"description"`
+	// 	} `json:"delivery_terms"`
+	// 	Carrier struct {
+	// 		ID          int    `json:"id"`
+	// 		Description string `json:"description"`
+	// 	} `json:"carrier"`
+	// 	Representative struct {
+	// 		ID          int    `json:"id"`
+	// 		Description string `json:"description"`
+	// 	} `json:"representative"`
+	// 	Region struct {
+	// 		ID          int    `json:"id"`
+	// 		Description string `json:"description"`
+	// 	} `json:"region"`
+	// 	CustomerType struct {
+	// 		ID          int    `json:"id"`
+	// 		Description string `json:"description"`
+	// 	} `json:"customer_type"`
+	// 	DeliveryAddress struct {
+	// 		ID          int    `json:"id"`
+	// 		Description string `json:"description"`
+	// 	} `json:"delivery_address"`
+	// 	InvoiceType struct {
+	// 		PdfDownload  bool   `json:"pdf_download"`
+	// 		EmailWithPdf bool   `json:"email_with_pdf"`
+	// 		EmailWithUbl bool   `json:"email_with_ubl"`
+	// 		Attachment   bool   `json:"attachment"`
+	// 		Email        string `json:"email"`
+	// 	} `json:"invoice_type"`
+	// 	ReminderType struct {
+	// 		PdfDownload  bool   `json:"pdf_download"`
+	// 		EmailWithPdf bool   `json:"email_with_pdf"`
+	// 		Email        string `json:"email"`
+	// 	} `json:"reminder_type"`
+	// 	QuotationType struct {
+	// 		PdfDownload  bool   `json:"pdf_download"`
+	// 		EmailWithPdf bool   `json:"email_with_pdf"`
+	// 		Attachment   bool   `json:"attachment"`
+	// 		Email        string `json:"email"`
+	// 	} `json:"quotation_type"`
+	// 	OrderType struct {
+	// 		PdfDownload  bool   `json:"pdf_download"`
+	// 		EmailWithPdf bool   `json:"email_with_pdf"`
+	// 		Attachment   bool   `json:"attachment"`
+	// 		Email        string `json:"email"`
+	// 	} `json:"order_type"`
+	// 	PackinglistType struct {
+	// 		PdfDownload  bool   `json:"pdf_download"`
+	// 		EmailWithPdf bool   `json:"email_with_pdf"`
+	// 		Attachment   bool   `json:"attachment"`
+	// 		Email        string `json:"email"`
+	// 	} `json:"packinglist_type"`
+	// 	BillofladingType struct {
+	// 		PdfDownload  bool   `json:"pdf_download"`
+	// 		EmailWithPdf bool   `json:"email_with_pdf"`
+	// 		Attachment   bool   `json:"attachment"`
+	// 		Email        string `json:"email"`
+	// 	} `json:"billoflading_type"`
+	// 	SubscriptionType struct {
+	// 		PdfDownload  bool   `json:"pdf_download"`
+	// 		EmailWithPdf bool   `json:"email_with_pdf"`
+	// 		Attachment   bool   `json:"attachment"`
+	// 		Email        string `json:"email"`
+	// 	} `json:"subscription_type"`
+	// } `json:"sales"`
+	ExternalID string `json:"externalid"`
+}
+
+func (c CustomerPost) MarshalJSON() ([]byte, error) {
+	return omitempty.MarshalJSON(c)
+}
+
+type Aggregation struct {
+	AggregationLevel int    `json:"aggregation_level"`
+	Description      string `json:"description"`
+}
+
+func (a Aggregation) IsEmpty() bool {
+	return zero.IsZero(a)
+}
+
+type Addresses []Address
+
+type Address struct {
+	AddressType         string `json:"address_type"`
+	ID                  string `json:"id"`
+	Name                string `json:"name"`
+	ExtendedName        string `json:"extended_name"`
+	ContactName         string `json:"contact_name"`
+	Salutation          string `json:"salutation"`
+	StreetnameAndNumber string `json:"streetname_and_number"`
+	PostalCode          string `json:"postal_code"`
+	City                string `json:"city"`
+	CountryCode         string `json:"country_code"`
+	Search              string `json:"search"`
+	Www                 string `json:"www"`
+	PhoneNumbers        []struct {
+		PhoneNumberType string `json:"phone_number_type"`
+		PhoneNumber     string `json:"phone_number"`
+	} `json:"phone_numbers"`
+	EmailAddresses []EmailAddress `json:"email_addresses"`
+}
+
+type EmailAddress struct {
+	EmailAddressType string `json:"email_address_type"`
+	EmailAddress     string `json:"email_address"`
+}
+
+type CustomerSearch struct {
+	ID    string `json:"id"`
+	Value string `json:"value"`
+}
+
+type CustomFields []CustomField
+
+type CustomField struct {
+	ID    string `json:"id"`
+	Value string `json:"value"`
 }
