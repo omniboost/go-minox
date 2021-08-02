@@ -333,12 +333,12 @@ type CustomerPost struct {
 	Addresses Addresses        `json:"addresses"`
 	Search    []CustomerSearch `json:"search"`
 	// Language string `json:"language"`
-	// VAT      struct {
-	// 	Active                bool   `json:"active"`
-	// 	SuggestedVATID        int    `json:"suggested_vat_id"`
-	// 	SuggestedGlAccount    int    `json:"suggested_gl_account"`
-	// 	VATRegistrationNumber string `json:"vat_registration_number"`
-	// } `json:"vat"`
+	VAT struct {
+		Active                bool   `json:"active"`
+		SuggestedVATID        int    `json:"suggested_vat_id"`
+		SuggestedGlAccount    int    `json:"suggested_gl_account"`
+		VATRegistrationNumber string `json:"vat_registration_number"`
+	} `json:"vat"`
 	// Currency struct {
 	// 	ID           string `json:"id"`
 	// 	ExchangeRate int    `json:"exchange_rate"`
@@ -474,7 +474,7 @@ type Addresses []Address
 
 type Address struct {
 	AddressType         string `json:"address_type"`
-	ID                  string `json:"id"`
+	ID                  string `json:"id,omitempty"`
 	Name                string `json:"name"`
 	ExtendedName        string `json:"extended_name"`
 	ContactName         string `json:"contact_name"`

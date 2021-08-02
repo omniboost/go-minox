@@ -97,7 +97,7 @@ func (r *CustomerSearchRequest) NewResponseBody() *CustomerSearchResponseBody {
 
 type CustomerSearchResponseBody struct {
 	Links      CollectionLinks `json:"links"`
-	Collection Administrations `json:"collection"`
+	Collection []CustomerPost  `json:"collection"`
 }
 
 func (r *CustomerSearchRequest) URL() url.URL {
