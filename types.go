@@ -120,10 +120,8 @@ type TransactionLinePut struct {
 	Journal       struct {
 		ID string `json:"id"`
 	} `json:"journal"`
-	PaymentTerm struct {
-		ID int `json:"id,omitempty"`
-	} `json:"payment_term"`
-	Period struct {
+	PaymentTerm PaymentTerm `json:"payment_term,omitempty"`
+	Period      struct {
 		ID         int `json:"id,omitempty"`
 		FiscalYear int `json:"fiscal_year,omitempty"`
 	} `json:"period"`
@@ -136,6 +134,10 @@ type TransactionLinePut struct {
 
 func (l TransactionLinePut) MarshalJSON() ([]byte, error) {
 	return omitempty.MarshalJSON(l)
+}
+
+func (l TransactionLinePut) IsEmpty() bool {
+	return zero.IsZero(l)
 }
 
 type TransactionLineBatchGet []TransactionLineGet
@@ -180,23 +182,8 @@ type TransactionLineGet struct {
 		TenantID         int    `json:"tenant_id"`
 		AdministrationID int    `json:"administration_id"`
 	} `json:"messages"`
-	PaymentTerm struct {
-		ID          int    `json:"id"`
-		Description string `json:"description"`
-		Search      []struct {
-			ID    string `json:"id"`
-			Value string `json:"value"`
-		} `json:"search"`
-		Days    int    `json:"days"`
-		Mandate string `json:"mandate"`
-		Start   string `json:"start"`
-		Terms   struct {
-			Type       string `json:"type"`
-			Days       int    `json:"days"`
-			Percentage int    `json:"percentage"`
-		} `json:"terms"`
-	} `json:"payment_term"`
-	Period struct {
+	PaymentTerm PaymentTerm `json:"payment_term"`
+	Period      struct {
 		ID          int    `json:"id"`
 		FiscalYear  int    `json:"fiscal_year"`
 		Description string `json:"description"`
@@ -216,16 +203,18 @@ type VAT struct {
 }
 
 // [
-// 	Af te dragen (1a, 1b),
-// 	Te vorderen (5b),
-// 	Verlegd binnenland - levering (1e),
-// 	Verlegd binnenland - verwerving (2a),
-// 	Verlegd buiten EU - levering (3a),
-// 	Verlegd binnen EU - levering (3b),
-// 	Verlegd buiten EU - verwerving (4a),
-// 	Verlegd binnen EU - verwerving (4b),
-// 	Afstandsverkopen binnen de EU (3c),
-// 	Diensten binnen de EU (ICP)
+//
+//	Af te dragen (1a, 1b),
+//	Te vorderen (5b),
+//	Verlegd binnenland - levering (1e),
+//	Verlegd binnenland - verwerving (2a),
+//	Verlegd buiten EU - levering (3a),
+//	Verlegd binnen EU - levering (3b),
+//	Verlegd buiten EU - verwerving (4a),
+//	Verlegd binnen EU - verwerving (4b),
+//	Afstandsverkopen binnen de EU (3c),
+//	Diensten binnen de EU (ICP)
+//
 // ]
 type VATType string
 
@@ -311,9 +300,11 @@ type LedgerAccount struct {
 }
 
 // [
-// 	debet,
-// 	credit,
-// 	none
+//
+//	debet,
+//	credit,
+//	none
+//
 // ]
 type DebitCreditSuggestion string
 
@@ -330,8 +321,8 @@ type CustomerPost struct {
 	ID int `json:"id,omitempty"`
 	// Aggregation Aggregation `json:"aggregation,omitempty"`
 	// IsOneTime   bool        `json:"is_one_time,omitempty"`
-	Addresses Addresses        `json:"addresses"`
-	Search    []CustomerSearch `json:"search"`
+	Addresses Addresses `json:"addresses"`
+	Search    []Search  `json:"search"`
 	// Language string `json:"language"`
 	VAT struct {
 		Active                bool   `json:"active"`
@@ -497,7 +488,7 @@ type EmailAddress struct {
 	EmailAddress     string `json:"email_address"`
 }
 
-type CustomerSearch struct {
+type Search struct {
 	ID    string `json:"id"`
 	Value string `json:"value"`
 }
@@ -507,4 +498,28 @@ type CustomFields []CustomField
 type CustomField struct {
 	ID    string `json:"id"`
 	Value string `json:"value"`
+}
+
+type PaymentTerm struct {
+	ID          int      `json:"id,omitempty"`
+	Description string   `json:"description,omitempty"`
+	Search      []Search `json:"search,omitempty"`
+	Days        int      `json:"days,omitempty"`
+	Mandate     string   `json:"mandate,omitempty"`
+	Start       string   `json:"start,omitempty"`
+	Terms       Terms    `json:"terms,omitempty"`
+}
+
+func (t PaymentTerm) MarshalJSON() ([]byte, error) {
+	return omitempty.MarshalJSON(t)
+}
+
+func (t PaymentTerm) IsEmpty() bool {
+	return zero.IsZero(t)
+}
+
+type Terms struct {
+	Type       string `json:"type,omitempty"`
+	Days       int    `json:"days,omitempty"`
+	Percentage int    `json:"percentage,omitempty"`
 }
