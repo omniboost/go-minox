@@ -43,7 +43,7 @@ func TestJournalListGet(t *testing.T) {
 	client.SetDisallowUnknownFields(true)
 
 	req := client.NewJournalListGetRequest()
-	req.PathParams().AdministrationID = "99998"
+	req.PathParams().AdministrationID = os.Getenv("MINOX_ADMINISTRATION")
 
 	resp, err := req.Do()
 	if err != nil {

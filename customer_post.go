@@ -1,7 +1,6 @@
 package minox
 
 import (
-	"encoding/json"
 	"net/http"
 	"net/url"
 
@@ -88,13 +87,7 @@ func (s *Client) NewCustomerPostRequestBody() CustomerPostRequestBody {
 	return CustomerPostRequestBody{}
 }
 
-type CustomerPostRequestBody struct {
-	CustomerPost []CustomerPost
-}
-
-func (r CustomerPostRequestBody) MarshalJSON() ([]byte, error) {
-	return json.Marshal(r.CustomerPost)
-}
+type CustomerPostRequestBody CustomerPost
 
 func (r *CustomerPostRequest) RequestBody() *CustomerPostRequestBody {
 	return &r.requestBody

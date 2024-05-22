@@ -322,7 +322,7 @@ type CustomerPost struct {
 	// Aggregation Aggregation `json:"aggregation,omitempty"`
 	// IsOneTime   bool        `json:"is_one_time,omitempty"`
 	Addresses Addresses `json:"addresses"`
-	Search    []Search  `json:"search"`
+	Search    []Search  `json:"search,omitempty"`
 	// Language string `json:"language"`
 	VAT struct {
 		Active                bool   `json:"active"`
@@ -360,7 +360,7 @@ type CustomerPost struct {
 	// 	Name string `json:"name"`
 	// 	City string `json:"city"`
 	// } `json:"bank"`
-	CustomFields CustomFields `json:"custom_fields"`
+	CustomFields CustomFields `json:"custom_fields,omitempty"`
 	// Memo struct {
 	// 	Active bool   `json:"active"`
 	// 	Text   string `json:"text"`
@@ -473,14 +473,14 @@ type Address struct {
 	StreetnameAndNumber string `json:"streetname_and_number"`
 	PostalCode          string `json:"postal_code"`
 	City                string `json:"city"`
-	CountryCode         string `json:"country_code"`
-	Search              string `json:"search"`
-	Www                 string `json:"www"`
+	CountryCode         string `json:"country_code,omitempty"`
+	Search              string `json:"search,omitempty"`
+	Www                 string `json:"www,omitempty"`
 	PhoneNumbers        []struct {
 		PhoneNumberType string `json:"phone_number_type"`
 		PhoneNumber     string `json:"phone_number"`
-	} `json:"phone_numbers"`
-	EmailAddresses []EmailAddress `json:"email_addresses"`
+	} `json:"phone_numbers,omitempty"`
+	EmailAddresses []EmailAddress `json:"email_addresses,omitempty"`
 }
 
 type EmailAddress struct {
