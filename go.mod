@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/cydev/zero v0.0.0-20160322155811-4a4535dd56e7
-	github.com/gorilla/schema v0.0.0-20171211162101-9fa3b6af65dc
+	github.com/gorilla/schema v1.4.1
 	github.com/joho/godotenv v1.3.0
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/satori/go.uuid v1.2.0
