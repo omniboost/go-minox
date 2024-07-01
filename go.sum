@@ -3,8 +3,8 @@ github.com/cydev/zero v0.0.0-20160322155811-4a4535dd56e7 h1:OQoU2eJO+adwX0gBaIed
 github.com/cydev/zero v0.0.0-20160322155811-4a4535dd56e7/go.mod h1:XGbwUcTsr1d7ezSp77rqp7aaYHlX+01wCaIFUNMRY6g=
 github.com/golang/protobuf v1.2.0 h1:P3YflyNX/ehuJFLhxviNdFxQPkGK5cDcApsge1SqnvM=
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
-github.com/gorilla/schema v0.0.0-20171211162101-9fa3b6af65dc h1:ZTcKDaJOhVhscc4XgpGKLRJJXD2bk879TBpXWzHDE5A=
-github.com/gorilla/schema v0.0.0-20171211162101-9fa3b6af65dc/go.mod h1:kgLaKoK1FELgZqMAVxx/5cbj0kT+57qxUrAlIO2eleU=
+github.com/gorilla/schema v1.4.1 h1:jUg5hUjCSDZpNGLuXQOgIWGdlgrIdYvgQ0wZtdK1M3E=
+github.com/gorilla/schema v1.4.1/go.mod h1:Dg5SSm5PV60mhF2NFaTV1xuYYj8tV8NOPRo4FggUMnM=
 github.com/joho/godotenv v1.3.0 h1:Zjp+RcGpHhGlrMbJzXTrZZPrWj+1vfm90La1wgB6Bhc=
 github.com/joho/godotenv v1.3.0/go.mod h1:7hK45KPybAkOC6peb+G5yklZfMxEjkZhHbwpqxOKXbg=
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
